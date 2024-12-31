@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+    </style>
+</head>
+<body>
+<h1>Register</h1>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <ul>
+            {% for category, message in messages %}
+                <li class="{{ category }}">{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endwith %}
+
+<form action="/register" method="POST">
+    <label for="username">Username:</label><br>
+    <input type="text" id="username" name="username" required><br><br>
+
+    <label for="password">Password:</label><br>
+    <input type="password" id="password" name="password" required><br><br>
+
+    <label for="name">Full Name:</label><br>
+    <input type="text" id="name" name="name" required><br><br>
+
+    <label for="isWorker">Are you a worker?</label><br>
+    <input type="checkbox" id="isWorker" name="isWorker" value="1"><br><br>
+
+    <label for="biography">Biography:</label><br>
+    <textarea id="biography" name="biography" rows="4" cols="50"></textarea><br><br>
+
+    <label for="location">Country:</label><br>
+    <input type="text" id="location" name="location"><br><br>
+
+    <label for="skills">Skills (comma-separated):</label><br>
+    <input type="text" id="skills" name="skills"><br><br>
+
+    <div class="form-actions">
+        <input type="submit" value="Register">
+        <a href="/login">
+            <button type="button">Login Instead</button>
+        </a>
+    </div>
+</form>
+</body>
+</html>

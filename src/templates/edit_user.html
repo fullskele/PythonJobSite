@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Account{% endblock %}
+
+{% block content %}
+    <body>
+    <h1>Edit Account</h1>
+    <form action="" method="POST">
+        <label for="username">Username:</label><br>
+        <input type="text" id="username" name="username" value="{{ user.username }}" required><br><br>
+
+        <label for="name">Full Name:</label><br>
+        <input type="text" id="name" name="name" value="{{ user.name }}" required><br><br>
+
+        <label for="isWorker">Are you a worker?</label><br>
+        <input type="checkbox" id="isWorker" name="isWorker" value="1" {% if user.isWorker %}checked{% endif %}><br><br>
+
+        <label for="biography">Biography:</label><br>
+        <textarea id="biography" name="biography" rows="4" cols="50">{{ user.biography }}</textarea><br><br>
+
+        <label for="location">Country:</label><br>
+        <input type="text" id="location" name="location" value="{{ user.location }}"><br><br>
+
+        <label for="skills">Skills (comma-separated):</label><br>
+        <input type="text" id="skills" name="skills" value="{{ user.skills }}"><br><br>
+
+        <input type="submit" value="Update User">
+    </form>
+    </body>
+{% endblock %}

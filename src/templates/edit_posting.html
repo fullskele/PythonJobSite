@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+
+{% block title %}Edit Job Posting{% endblock %}
+
+{% block content %}
+    <html lang="en">
+    <body>
+    <h1>Edit Job Posting</h1>
+
+    <form action="/editPosting/{{ current_number }}" method="POST">
+        <label for="title">Job Title:</label><br>
+        <input type="text" id="title" name="title" value="{{ post['title'] }}" required><br><br>
+
+        <label for="description">Description:</label><br>
+        <textarea id="description" name="description" rows="4" cols="50"
+                  required>{{ post['description'] }}</textarea><br><br>
+
+        <label for="location">Country:</label><br>
+        <input type="text" id="location" name="location" value="{{ post['location'] }}" required><br><br>
+
+        <label for="min_salary">Minimum Salary:</label><br>
+        <input type="number" id="min_salary" name="min_salary" value="{{ post['min_salary'] }}" required><br><br>
+
+        <label for="max_salary">Maximum Salary:</label><br>
+        <input type="number" id="max_salary" name="max_salary" value="{{ post['max_salary'] }}" required><br><br>
+
+        <label for="related_skills">Related Skills (comma-separated):</label><br>
+        <input type="text" id="related_skills" name="related_skills" value="{{ post['skills'] }}" required><br><br>
+
+        <label for="isOpen">Is Open:</label>
+        <input type="checkbox" id="isOpen" name="isOpen" {% if post['isOpen'] %}checked{% endif %}><br><br>
+
+        <input type="submit" value="Update Posting">
+    </form>
+    </body>
+{% endblock %}
+</html>

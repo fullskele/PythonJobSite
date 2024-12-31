@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+
+{% block title %}Create Job Posting{% endblock %}
+
+{% block content %}
+    <html lang="en">
+    <body>
+    <h1>Create Job Posting</h1>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul>
+                {% for category, message in messages %}
+                    <li class="{{ category }}">{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+
+    <form action="/createPosting" method="POST">
+        <label for="title">Job Title:</label><br>
+        <input type="text" id="title" name="title" required><br><br>
+
+        <label for="description">Description:</label><br>
+        <textarea id="description" name="description" rows="4" cols="50" required></textarea><br><br>
+
+        <label for="location">Country:</label><br>
+        <input type="text" id="location" name="location" required><br><br>
+
+        <label for="min_salary">Minimum Salary:</label><br>
+        <input type="number" id="min_salary" name="min_salary" required><br><br>
+
+        <label for="max_salary">Maximum Salary:</label><br>
+        <input type="number" id="max_salary" name="max_salary" required><br><br>
+
+        <label for="related_skills">Related Skills (comma-separated):</label><br>
+        <input type="text" id="related_skills" name="related_skills" required><br><br>
+
+        <input type="submit" value="Create Posting">
+    </form>
+    </body>
+{% endblock %}
+</html>

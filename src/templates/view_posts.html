@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+
+{% block title %}Available Job Postings{% endblock %}
+
+{% block content %}
+    <html lang="en">
+    <body>
+    <div class="container">
+        <h1>Available Job Postings in {{ location }}</h1>
+
+        {% if posts %}
+            <div class="post-container">
+                {% for post in posts %}
+                    <div class="post-card">
+                        <h3>{{ post.title }}</h3>
+                        <p><strong>Description:</strong> {{ post.description }}</p>
+                        <p><strong>Salary Range:</strong> ${{ post.min_salary }} - ${{ post.max_salary }} USD</p>
+                        <p><strong>Skills:</strong></p>
+                        <div class="skills-list">
+                            {% for skill in post.skills.split(',') %}
+                                <span>{{ skill.strip() }}</span>
+                            {% endfor %}
+                        </div>
+                        <button class="btn btn-primary apply-button" onclick="applyToPost({{ post.postId }})">Apply
+                        </button>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>No job posts available matching your criteria.</p>
+        {% endif %}
+    </div>
+
+<script>
+    function applyToPost(postId) {
+        fetch('/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({postId: postId})
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Applied successfully!');
+                    // Refresh the page
+                    window.location.reload();
+                } else {
+                    alert('Failed to apply. Try again.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred. ' + error);
+            });
+    }
+</script>
+</body>
+    {% endblock %}
+</html>

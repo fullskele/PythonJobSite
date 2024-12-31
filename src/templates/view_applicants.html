@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+
+{% block title %}View Applicants{% endblock %}
+
+{% block content %}
+    <html lang="en">
+    <body>
+    <div class="container">
+        <h1>Applicants for Job Posts</h1>
+
+        {% if applicants %}
+            <div class="applicant-container">
+                {% for applicant in applicants %}
+                    <div class="applicant-card">
+                        <h3>{{ applicant.title }}</h3>
+                        <p><strong>Applicant Name:</strong> {{ applicant.name }}</p>
+                        <p><strong>Biography:</strong> {{ applicant.biography }}</p>
+                        <p><strong>Skills:</strong></p>
+                        <div class="skills-list-alt">
+                            {% for skill in applicant.skills.split(',') %}
+                                <span>{{ skill.strip() }}</span>
+                            {% endfor %}
+                        </div>
+                        <div class="action-buttons">
+                            <button class="btn btn-success"
+                                    onclick="approveApplicant('{{ applicant.userId }}', '{{ applicant.postId }}')">
+                                Approve
+                            </button>
+                            <button class="btn btn-danger"
+                                    onclick="denyApplicant('{{ applicant.userId }}', '{{ applicant.postId }}')">Deny
+                            </button>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>No applicants found for your posts.</p>
+        {% endif %}
+    </div>
+
+    <script>
+        function approveApplicant(userId, postId) {
+            fetch('/approveApplicant', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({userId: userId, postId: postId})
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Applicant approved successfully!');
+                        window.location.reload();
+                    } else {
+                        alert('Failed to approve applicant.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred.');
+                });
+        }
+
+        function denyApplicant(userId, postId) {
+            fetch('/denyApplicant', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({userId: userId, postId: postId})
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Applicant denied successfully!');
+                        window.location.reload();
+                    } else {
+                        alert('Failed to deny applicant.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred.');
+                });
+        }
+    </script>
+    </body>
+{% endblock %}
+</html>
